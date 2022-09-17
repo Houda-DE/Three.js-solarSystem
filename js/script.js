@@ -50,95 +50,42 @@ scene.add(sun)
 const pointLight = new THREE.PointLight(0xffffff , 1 , 300)
 scene.add(pointLight)
 
-const mercuryGeo = new THREE.SphereGeometry(3.2 , 100 ,100)
-const mercuryMat = new THREE.MeshStandardMaterial ({
-    map : texttureLoader.load(mercurymap)
+const createPlanet = (size , texture , position , ring) => {
+    const Geo = new THREE.SphereGeometry(size , 100 ,100)
+    const Mat = new THREE.MeshStandardMaterial ({
+        map : texttureLoader.load(texture)
+    })
+    const mesh = new THREE.Mesh(Geo , Mat)
 
-})
-const mercury = new THREE.Mesh(mercuryGeo , mercuryMat)
+    const obj = new THREE.Object3D()
+    obj.add(mesh)
+    scene.add(obj)
+    mesh.position.x = position;
 
-const mercuryObj = new THREE.Object3D()
-mercuryObj.add(mercury)
-scene.add(mercuryObj)
-mercury.position.x = 28
+    if (ring) {
+        const ringGeo = new THREE.RingGeometry(ring.innerRaduis , ring.outerRaduis , 32)
+        const ringMat = new THREE.MeshStandardMaterial ({
+            map : texttureLoader.load(ring.texture),
+            side : THREE.DoubleSide
+        
+        })
+        const ring = new THREE.Mesh(ringGeo , ringMat)
+        obj.add(ring)
+        ring.position.x = position
+        ring.rotation.x = -0.5 * Math.PI
+        
+    }
 
-const venusGeo = new THREE.SphereGeometry(5 , 100 ,100)
-const venusMat = new THREE.MeshStandardMaterial ({
-    map : texttureLoader.load(venusmap)
+    return {mesh , obj}
+}
 
-})
-const venus = new THREE.Mesh(venusGeo , venusMat)
-
-const venusObj = new THREE.Object3D()
-venusObj.add(venus)
-scene.add(venusObj)
-venus.position.x = 45
-
-const earthGeo = new THREE.SphereGeometry(7 , 100 ,100)
-const earthMat = new THREE.MeshStandardMaterial ({
-    map : texttureLoader.load(earthmap)
-
-})
-const earth = new THREE.Mesh(earthGeo , earthMat)
-
-const earthObj = new THREE.Object3D()
-earthObj.add(earth)
-scene.add(earthObj)
-earth.position.x = 80
-
-const marsGeo = new THREE.SphereGeometry(9 , 100 ,100)
-const marsMat = new THREE.MeshStandardMaterial ({
-    map : texttureLoader.load(marsmap)
-
-})
-const mars = new THREE.Mesh(marsGeo , marsMat)
-
-const marsObj = new THREE.Object3D()
-marsObj.add(mars)
-scene.add(marsObj)
-mars.position.x = 110
-
-const saturnGeo = new THREE.SphereGeometry(13 , 100 ,100)
-const saturnMat = new THREE.MeshStandardMaterial ({
-    map : texttureLoader.load(saturnmap)
-
-})
-const saturn = new THREE.Mesh(saturnGeo , saturnMat)
-
-const saturnObj = new THREE.Object3D()
-saturnObj.add(saturn)
-scene.add(saturnObj)
-saturn.position.x = 140
-
-const saturnRingGeo = new THREE.RingGeometry(15 , 25 , 32)
-const saturnRingMat = new THREE.MeshStandardMaterial ({
-    map : texttureLoader.load(saturnring),
-    side : THREE.DoubleSide
-
-})
-const saturnRing = new THREE.Mesh(saturnRingGeo , saturnRingMat)
-saturnObj.add(saturnRing)
-saturnRing.position.x = 140
-saturnRing.rotation.x = -0.5 * Math.PI
-
+const mercury = createPlanet(3.2 , mercurymap , 28)
 
 const animate = () => {
 
     renderer.render(scene , camera)
     sun.rotateY(0.004)
-    mercuryObj.rotateY(0.04)
-    mercury.rotateY(0.004)
-    venusObj.rotateY(0.02)
-    venus.rotateY(0.004)
-    earthObj.rotateY(0.01)
-    earth.rotateY(0.004)
-    marsObj.rotateY(0.009)
-    mars.rotateY(0.004)
-    saturnObj.rotateY(0.006)
-    saturn.rotateY(0.004)
-    saturnRing.rotateZ(0.004)
-
-
+    
 }
 
 renderer.setAnimationLoop(animate)
