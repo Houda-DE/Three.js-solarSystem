@@ -12,6 +12,7 @@ import sunmap from '../img/sunmap.jpg'
 import uranusmap from '../img/uranusmap.jpg'
 import uranusring from '../img/uranusringcolour.jpg'
 import venusmap from '../img/venusmap.jpg'
+import plutomap from '../img/plutomap1k.jpg'
 import stars from '../img/stars.jpg'
 
 const renderer = new THREE.WebGLRenderer()
@@ -69,10 +70,10 @@ const createPlanet = (size , texture , position , ring) => {
             side : THREE.DoubleSide
         
         })
-        const ring = new THREE.Mesh(ringGeo , ringMat)
-        obj.add(ring)
-        ring.position.x = position
-        ring.rotation.x = -0.5 * Math.PI
+        const ringMesh = new THREE.Mesh(ringGeo , ringMat)
+        obj.add(ringMesh)
+        ringMesh.position.x = position
+        ringMesh.rotation.x = -0.5 * Math.PI
         
     }
 
@@ -80,11 +81,49 @@ const createPlanet = (size , texture , position , ring) => {
 }
 
 const mercury = createPlanet(3.2 , mercurymap , 28)
+const venus = createPlanet(5.8 , venusmap , 44)
+const earth = createPlanet(6 , earthmap , 62)
+const mars = createPlanet(4 , marsmap , 78)
+const jupiter = createPlanet(12 , jupitermap , 100)
+const saturn = createPlanet(10 , saturnmap , 138 , {
+    innerRaduis : 12,
+    outerRaduis : 16,
+    texture : saturnring
+})
+
+const uranus = createPlanet(7 , uranusmap , 176 , {
+    innerRaduis : 8,
+    outerRaduis : 10,
+    texture : uranusring
+})
+
+const neptune = createPlanet(12 , neptunemap , 200)
+const pluto = createPlanet(2.8 , plutomap , 250)
+    
+
 
 const animate = () => {
 
     renderer.render(scene , camera)
     sun.rotateY(0.004)
+    mercury.mesh.rotateY(0.004)
+    mercury.obj.rotateY(0.04)
+    venus.mesh.rotateY(0.004)
+    venus.obj.rotateY(0.02)
+    earth.mesh.rotateY(0.004)
+    earth.obj.rotateY(0.01)
+    mars.mesh.rotateY(0.004)
+    mars.obj.rotateY(0.008)
+    jupiter.mesh.rotateY(0.004)
+    jupiter.obj.rotateY(0.006)
+    saturn.mesh.rotateY(0.004)
+    saturn.obj.rotateY(0.005)
+    uranus.mesh.rotateY(0.004)
+    uranus.obj.rotateY(0.004)
+    neptune.mesh.rotateY(0.004)
+    neptune.obj.rotateY(0.003)
+    pluto.mesh.rotateY(0.004)
+    pluto.obj.rotateY(0.002)
     
 }
 
